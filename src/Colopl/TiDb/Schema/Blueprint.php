@@ -17,7 +17,6 @@
 
 namespace Colopl\TiDB\Schema;
 
-use Illuminate\Support\Fluent;
 use Illuminate\Database\Schema\Blueprint as BaseBluePrint;
 
 class Blueprint extends BaseBluePrint

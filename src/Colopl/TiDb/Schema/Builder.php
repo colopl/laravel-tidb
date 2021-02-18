@@ -17,86 +17,9 @@
 
 namespace Colopl\TiDB\Schema;
 
-use Closure;
-use Illuminate\Database\Schema\Blueprint as BaseBlueprint;
 use Illuminate\Database\Schema\Builder as BaseBuilder;
 
 class Builder extends BaseBuilder
 {
-    /**
-     * The default binary length for migrations.
-     *
-     * @var int
-     */
-    public static $defaultBinaryLength = 255;
 
-    /**
-     * @param string $table
-     * @return string[]
-     */
-    public function getColumnListing($table)
-    {
-        $table = $this->connection->getTablePrefix().$table;
-
-        $results = $this->connection->select(
-            $this->grammar->compileColumnListing(), [$table]
-        );
-
-        return $this->connection->getPostProcessor()->processColumnListing($results);
-    }
-
-    /**
-     * @param string $table
-     * @return string[]
-     */
-    public function getIndexListing($table)
-    {
-        $table = $this->connection->getTablePrefix().$table;
-
-        $results = $this->connection->select(
-            $this->grammar->compileIndexListing(), [$table]
-        );
-
-        return $this->connection->getPostProcessor()->processIndexListing($results);
-    }
-
-    /**
-     * @param string $table
-     * @param string $name
-     */
-    public function dropIndex($table, $name)
-    {
-        $blueprint = $this->createBlueprint($table);
-        $blueprint->dropIndex($name);
-        $this->build($blueprint);
-    }
-
-    /**
-     * @param string $table
-     * @param string $name
-     */
-    public function dropIndexIfExist($table, $name)
-    {
-        if(in_array($name, $this->getIndexListing($table))) {
-            $blueprint = $this->createBlueprint($table);
-            $blueprint->dropIndex($name);
-            $this->build($blueprint);
-        }
-    }
-
-    /**
-     * Create a new command set with a Closure.
-     *
-     * @param  string  $table
-     * @param  Closure|null  $callback
-     * @return BaseBlueprint
-     */
-    protected function createBlueprint($table, Closure $callback = null)
-    {
-        if (isset($this->resolver)) {
-            return call_user_func($this->resolver, $table, $callback);
-        }
-
-        return new Blueprint($table, $callback);
-    }
 }

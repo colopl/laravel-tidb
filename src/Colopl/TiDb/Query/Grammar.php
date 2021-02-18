@@ -15,11 +15,17 @@
  * limitations under the License.
  */
 
-namespace Colopl\TiDB\Schema;
+namespace Colopl\TiDB\Query;
 
-use Illuminate\Database\Schema\Grammars\MySqlGrammar;
+use Illuminate\Database\Query\Grammars\MySqlGrammar;
 
 class Grammar extends MySqlGrammar
 {
-
+    /**
+     * TiDB does not support Savepoint clause
+     */
+    public function supportsSavepoints()
+    {
+        return false;
+    }
 }

@@ -19,7 +19,9 @@ namespace Colopl\TiDB;
 
 use Exception;
 use Illuminate\Database\Connection as BaseConnection;
-use Illuminate\Database\QueryException;
+use Colopl\TiDB\Schema\Builder as SchemaBuilder;
+use Colopl\TiDB\Schema\Grammar as SchemaGrammar;
+use Illuminate\Database\Query\Grammars\Grammar as QueryGrammar;
 
 class Connection extends BaseConnection
 {
@@ -36,11 +38,19 @@ class Connection extends BaseConnection
     }
 
     /**
+     * @return QueryGrammar
+     */
+    protected function getDefaultQueryGrammar()
+    {
+        return new QueryGrammar;
+    }
+
+    /**
      * @return SchemaGrammar
      */
     protected function getDefaultSchemaGrammar()
     {
-        return new SchemaGrammar();
+        return new SchemaGrammar;
     }
 
     /**
