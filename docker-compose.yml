@@ -1,0 +1,9 @@
+version: "3"
+services:
+  test:
+    build:
+      context: .
+    command: /bin/sh -c "composer install && vendor/bin/phpunit"
+    volumes:
+      - .:/project:delegated
+
