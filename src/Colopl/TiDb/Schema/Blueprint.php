@@ -18,7 +18,48 @@
 namespace Colopl\TiDB\Schema;
 
 use Illuminate\Database\Schema\Blueprint as BaseBluePrint;
+use Illuminate\Database\Schema\ColumnDefinition;
 
 class Blueprint extends BaseBluePrint
 {
+    /**
+     * @var int
+     */
+    public $shardRowIdBits;
+
+    /**
+     * @var int
+     */
+    public $preSplitRegions;
+
+    /**
+     * @param  string  $type
+     * @param  string  $name
+     * @param  array  $parameters
+     * @return ColumnDefinition
+     */
+    public function addColumn($type, $name, array $parameters = [])
+    {
+        $this->columns[] = $column = new ColumnDefinition(
+            array_merge(compact('type', 'name'), $parameters)
+        );
+
+        return $column;
+    }
+
+    /**
+     * @param int $bits
+     */
+    public function shardRowIdBits(int $bits)
+    {
+        $this->shardRowIdBits = $bits;
+    }
+
+    /**
+     * @param int $regions
+     */
+    public function preSplitRegions(int $regions)
+    {
+        $this->preSplitRegions = $regions;
+    }
 }

@@ -3,7 +3,15 @@ services:
   test:
     build:
       context: .
+      dockerfile: Dockerfile.test
     command: /bin/sh -c "composer install && vendor/bin/phpunit"
     volumes:
       - .:/project:delegated
-
+  tidb:
+    build:
+      context: .
+      dockerfile: Dockerfile.tidb
+    image: ubuntu:latest
+    command: /bin/sh -c "tail -f /dev/null"
+    environment:
+      TZ: "Asia/Tokyo"

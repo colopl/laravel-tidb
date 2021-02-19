@@ -15,10 +15,13 @@
  * limitations under the License.
  */
 
-namespace Colopl\TiDB\Query;
+namespace Colopl\TiDB\Schema;
 
-use Illuminate\Database\Query\Processors\MySqlProcessor;
+use Illuminate\Database\Schema\ColumnDefinition as BaseColumnDefinition;
 
-class Processor extends MySqlProcessor
+/**
+ * @method $this autoRandom(int $shard_bits = null) Set INTEGER columns as auto-random (primary key)
+ */
+class ColumnDefinition extends BaseColumnDefinition
 {
 }

@@ -17,9 +17,67 @@
 
 namespace Colopl\TiDB\Schema;
 
+use Illuminate\Database\Connection;
+use Illuminate\Database\Schema\Blueprint as BaseBluePrint;
 use Illuminate\Database\Schema\Grammars\MySqlGrammar;
+use Illuminate\Support\Fluent;
 
 class Grammar extends MySqlGrammar
 {
+    /**
+     * @var array
+     */
+    protected $modifiers = [
+        'Unsigned', 'Charset', 'Collate', 'VirtualAs', 'StoredAs', 'Nullable',
+        'Srid', 'Default', 'Increment', 'Comment', 'After', 'First',
+        // TiDB Specific Modifiers
+        'AutoRandom',
+    ];
+
+    /**
+     * @param  Blueprint  $blueprint
+     * @param  Fluent  $column
+     * @return string|null
+     */
+    protected function modifyAutoRandom(Blueprint $blueprint, Fluent $column)
+    {
+        if ($column->autoRandom) {
+            return ' auto_random'.(is_int($column->autoRandom) ? "({$column->autoRandom})" : '');
+        }
+    }
+
+    /**
+     * @param  Blueprint  $blueprint
+     * @param  Fluent  $command
+     * @param  Connection  $connection
+     * @return string
+     */
+    public function compileCreate(BaseBluePrint $blueprint, Fluent $command, Connection $connection)
+    {
+        $sql = parent::compileCreate($blueprint, $command, $connection);
+
+        $sql = $this->compileCreateShards($sql, $connection, $blueprint);
+
+        return $sql;
+    }
+
+    /**
+     * @param string $sql
+     * @param Connection $connection
+     * @param Blueprint $blueprint
+     * @return string
+     */
+    protected function compileCreateShards(string $sql, Connection $connection, Blueprint $blueprint)
+    {
+        if ($blueprint->shardRowIdBits) {
+            $sql.= " SHARD_ROW_ID_BITS={$blueprint->shardRowIdBits}";
+        }
+
+        if ($blueprint->preSplitRegions) {
+            $sql.= " PRE_SPLIT_REGIONS={$blueprint->preSplitRegions}";
+        }
+
+        return $sql;
+    }
 
 }

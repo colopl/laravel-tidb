@@ -19,7 +19,6 @@ namespace Colopl\TiDB;
 
 use Exception;
 use Illuminate\Database\DatabaseManager;
-use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 
 class TiDBServiceProvider extends ServiceProvider
@@ -30,7 +29,7 @@ class TiDBServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->resolving('db', function (DatabaseManager $db) {
-            $db->extend('tidb', function ($config, $name) {
+            $db->extend('tidb', function ($config) {
                 return $this->createTiDBConnection($config);
             });
         });

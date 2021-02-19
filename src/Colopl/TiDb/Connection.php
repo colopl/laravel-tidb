@@ -17,19 +17,19 @@
 
 namespace Colopl\TiDB;
 
-use Illuminate\Database\Connection as BaseConnection;
 use Colopl\TiDB\Schema\Builder as SchemaBuilder;
 use Colopl\TiDB\Schema\Grammar as SchemaGrammar;
+use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Query\Grammars\Grammar as QueryGrammar;
 
-class Connection extends BaseConnection
+class Connection extends MySqlConnection
 {
     /**
      * @return QueryGrammar
      */
     protected function getDefaultQueryGrammar()
     {
-        return new QueryGrammar;
+        return $this->withTablePrefix(new QueryGrammar);
     }
 
     /**
@@ -37,7 +37,7 @@ class Connection extends BaseConnection
      */
     protected function getDefaultSchemaGrammar()
     {
-        return new SchemaGrammar;
+        return $this->withTablePrefix(new SchemaGrammar);
     }
 
     /**
