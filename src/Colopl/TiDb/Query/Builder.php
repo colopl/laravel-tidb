@@ -15,9 +15,11 @@
  * limitations under the License.
  */
 
-namespace Colopl\TiDB\Tests;
+namespace Colopl\TiDB\Query;
 
-class TransactionTest extends TestCase
+use Illuminate\Database\Query\Builder as BaseBuilder;
+
+class Builder extends BaseBuilder
 {
 
 }

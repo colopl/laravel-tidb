@@ -17,7 +17,6 @@
 
 namespace Colopl\TiDB;
 
-use Exception;
 use Illuminate\Database\Connection as BaseConnection;
 use Colopl\TiDB\Schema\Builder as SchemaBuilder;
 use Colopl\TiDB\Schema\Grammar as SchemaGrammar;
@@ -25,18 +24,6 @@ use Illuminate\Database\Query\Grammars\Grammar as QueryGrammar;
 
 class Connection extends BaseConnection
 {
-    /**
-     * @param string $instanceId instance ID
-     * @param string $databaseName
-     * @param string $tablePrefix
-     * @param array $config
-     * @throws Exception
-     */
-    public function __construct(string $instanceId, string $databaseName, $tablePrefix = '', array $config = [])
-    {
-        parent::__construct(null, $databaseName, $tablePrefix, $config);
-    }
-
     /**
      * @return QueryGrammar
      */
