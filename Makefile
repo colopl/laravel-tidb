@@ -4,7 +4,7 @@ build:
 	$(BASE_COMMAND) build
 
 up:
-	$(BASE_COMMAND) run tidb /bin/bash
+	$(BASE_COMMAND) run test /bin/sh
 
 down:
 	$(BASE_COMMAND) down --remove-orphans
@@ -21,4 +21,7 @@ bash:
 	$(BASE_COMMAND) run test /bin/sh
 
 tidb:
-	$(BASE_COMMAND) run tidb /bin/bash
+	$(BASE_COMMAND) exec tidb /bin/bash
+
+logs:
+	$(BASE_COMMAND) logs

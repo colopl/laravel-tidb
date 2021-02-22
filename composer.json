@@ -9,6 +9,7 @@
   "require": {
     "php": ">=7.4",
     "ext-json": "*",
+    "ext-pdo": "*",
     "laravel/framework": "~6.0|~7.0|~8.0"
   },
   "require-dev": {
@@ -22,7 +23,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Colopl\\TiDB\\Tests\\": "tests/Colopl/Tidb"
+      "Colopl\\TiDB\\Tests\\": "tests/Colopl/TiDB"
     }
   },
   "extra": {

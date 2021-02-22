@@ -18,7 +18,6 @@
 namespace Colopl\TiDB\Schema;
 
 use Illuminate\Database\Schema\Blueprint as BaseBluePrint;
-use Illuminate\Database\Schema\ColumnDefinition;
 
 class Blueprint extends BaseBluePrint
 {
@@ -31,6 +30,26 @@ class Blueprint extends BaseBluePrint
      * @var int
      */
     public $preSplitRegions;
+
+    /**
+     * @param string $column
+     * @return ColumnDefinition
+     */
+    public function id($column = 'id')
+    {
+        return $this->bigInteger($column)->autoRandom();
+    }
+
+    /**
+     * @param string $column
+     * @param false $autoIncrement
+     * @param false $unsigned
+     * @return ColumnDefinition
+     */
+    public function bigInteger($column, $autoIncrement = false, $unsigned = false)
+    {
+        return parent::bigInteger($column, $autoIncrement, $unsigned);
+    }
 
     /**
      * @param  string  $type

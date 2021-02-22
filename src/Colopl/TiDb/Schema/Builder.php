@@ -17,9 +17,27 @@
 
 namespace Colopl\TiDB\Schema;
 
+use Closure;
 use Illuminate\Database\Schema\Builder as BaseBuilder;
 
 class Builder extends BaseBuilder
 {
+    /**
+     * @param  string  $table
+     * @param  Closure|null  $callback
+     * @return Blueprint
+     */
+    protected function createBlueprint($table, Closure $callback = null)
+    {
+        $prefix = $this->connection->getConfig('prefix_indexes')
+            ? $this->connection->getConfig('prefix')
+            : '';
+
+        if (isset($this->resolver)) {
+            return call_user_func($this->resolver, $table, $callback, $prefix);
+        }
+
+        return new Blueprint($table, $callback, $prefix);
+    }
 
 }

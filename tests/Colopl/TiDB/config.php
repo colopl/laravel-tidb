@@ -15,21 +15,16 @@
  * limitations under the License.
  */
 
-namespace Colopl\TiDB;
+return [
+    'connections' => [
+        'main' => [
+            'driver' => 'tidb',
+            'host' => 'tidb',
+            'port' => 4000,
+            'username' => 'root',
+            'database' => 'test_db',
+        ],
+    ],
 
-use Illuminate\Database\Connectors\MySqlConnector;
-use Illuminate\Support\ServiceProvider;
-
-class TiDBServiceProvider extends ServiceProvider
-{
-    public function register()
-    {
-        $this->app->bind('db.connector.tidb', function() {
-            return new MySqlConnector;
-        });
-
-        Connection::resolverFor('tidb', function ($pdo, $database, $prefix, $config) {
-            return new Connection($pdo, $database, $prefix, $config);
-        });
-    }
-}
+    'default' => 'main',
+];

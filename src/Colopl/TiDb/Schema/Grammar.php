@@ -42,7 +42,7 @@ class Grammar extends MySqlGrammar
     protected function modifyAutoRandom(Blueprint $blueprint, Fluent $column)
     {
         if ($column->autoRandom) {
-            return ' auto_random'.(is_int($column->autoRandom) ? "({$column->autoRandom})" : '');
+            return ' primary key auto_random'.(is_int($column->autoRandom) ? "({$column->autoRandom})" : '');
         }
     }
 

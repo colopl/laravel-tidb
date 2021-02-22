@@ -15,12 +15,24 @@
  * limitations under the License.
  */
 
-return [
-    'connections' => [
-        'main' => [
-            'driver' => 'tidb'
-        ],
-    ],
+namespace Colopl\TiDB\Tests;
 
-    'default' => 'main',
-];
+
+use Colopl\TiDB\Connection;
+
+class ConnectionTest extends TestCase
+{
+    public function testConnect()
+    {
+        $conn = $this->getConnection();
+        self::assertInstanceOf(Connection::class, $conn);
+        self::assertNotEmpty($conn->getName());
+        $conn->disconnect();
+    }
+
+    public function testSelectQuery()
+    {
+        $conn = $this->getConnection();
+        self::assertEquals(1, $conn->select('SELECT 1'));
+    }
+}
