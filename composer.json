@@ -18,7 +18,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Colopl\\TiDB\\": "src/Colopl/TiDb"
+      "Colopl\\TiDB\\": "src/Colopl/TiDB"
     }
   },
   "autoload-dev": {
