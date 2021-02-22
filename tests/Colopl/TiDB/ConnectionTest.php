@@ -33,6 +33,6 @@ class ConnectionTest extends TestCase
     public function testSelectQuery()
     {
         $conn = $this->getConnection();
-        self::assertEquals(1, $conn->select('SELECT 1'));
+        self::assertEquals(1, $conn->selectOne('SELECT 1')->{"1"});
     }
 }
