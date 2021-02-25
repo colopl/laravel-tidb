@@ -80,4 +80,22 @@ class Grammar extends MySqlGrammar
         return $sql;
     }
 
+    /**
+     * TiDB has limited support for foreign key constraints.
+     * @see https://docs.pingcap.com/tidb/stable/constraints#foreign-key
+     *
+     * @param BaseBluePrint $blueprint
+     * @param Fluent $command
+     * @return string
+     */
+    public function compileForeign(BaseBluePrint $blueprint, Fluent $command)
+    {
+        $ddl = parent::compileForeign($blueprint, $command);
+
+        logger()->warning('TiDB does not perform constraint checking on foreign keys. DDL:'.$ddl, [
+            'result' => $ddl,
+        ]);
+
+        return $ddl;
+    }
 }
