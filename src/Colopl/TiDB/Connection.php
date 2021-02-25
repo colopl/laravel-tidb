@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection ALL */
+
 /**
  * Copyright 2021 Colopl Inc. All Rights Reserved.
  *
@@ -17,10 +18,10 @@
 
 namespace Colopl\TiDB;
 
+use Colopl\TiDB\Query\Grammar as QueryGrammar;
 use Colopl\TiDB\Schema\Builder as SchemaBuilder;
 use Colopl\TiDB\Schema\Grammar as SchemaGrammar;
 use Illuminate\Database\MySqlConnection;
-use Illuminate\Database\Query\Grammars\Grammar as QueryGrammar;
 
 class Connection extends MySqlConnection
 {
@@ -50,5 +51,14 @@ class Connection extends MySqlConnection
         }
 
         return new SchemaBuilder($this);
+    }
+
+    /**
+     * @param int|null $toLevel
+     */
+    public function rollBack($toLevel = null)
+    {
+        // TiDB does not support savepoint so always rollback the base transaction.
+        parent::rollBack(0);
     }
 }

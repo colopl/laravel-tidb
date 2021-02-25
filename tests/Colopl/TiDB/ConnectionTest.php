@@ -17,7 +17,6 @@
 
 namespace Colopl\TiDB\Tests;
 
-
 use Colopl\TiDB\Connection;
 
 class ConnectionTest extends TestCase
@@ -34,5 +33,42 @@ class ConnectionTest extends TestCase
     {
         $conn = $this->getConnection();
         self::assertEquals(1, $conn->selectOne('SELECT 1')->{"1"});
+    }
+
+    public function testStatementQuery()
+    {
+        $conn = $this->getConnection();
+        self::assertTrue($conn->statement('SELECT 1'));
+    }
+
+    public function testNestedTransactions()
+    {
+        $name = 'tester1';
+
+        $conn = $this->getConnection();
+        $conn->beginTransaction();
+        $conn->beginTransaction();
+        $conn->query()->from('User')->insert(compact('name'));
+        $conn->commit();
+        $conn->commit();
+
+        $data = $conn->selectOne('SELECT * FROM User');
+
+        self::assertEquals($data->name, $name);
+    }
+
+    public function testNestedTransactionWithRollback()
+    {
+        $name = 'tester1';
+
+        $conn = $this->getConnection();
+        $conn->beginTransaction();
+        $conn->query()->from('User')->insert(compact('name'));
+        $conn->beginTransaction();
+        $conn->rollBack();
+        $conn->commit();
+
+        $data = $conn->selectOne('SELECT * FROM User');
+        self::assertNull($data);
     }
 }

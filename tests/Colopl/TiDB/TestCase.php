@@ -21,6 +21,7 @@ use Colopl\TiDB\Connection;
 use Colopl\TiDB\Schema\Blueprint;
 use Colopl\TiDB\TiDBServiceProvider;
 use Illuminate\Database\Connectors\MySqlConnector;
+use Illuminate\Support\Str;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -35,7 +36,12 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         /** @var Connection $conn */
         foreach ($this->app['db']->getConnections() as $conn) {
-
+            $tables = $conn->getSchemaBuilder()->getAllTables()[0];
+            foreach ($tables as $key => $table) {
+                if (Str::startsWith($key, 'Tables_in_')) {
+                    $conn->query()->from($table)->delete();
+                }
+            }
         }
     }
 

@@ -18,9 +18,9 @@
 namespace Colopl\TiDB\Schema;
 
 use Closure;
-use Illuminate\Database\Schema\Builder as BaseBuilder;
+use Illuminate\Database\Schema\MySqlBuilder;
 
-class Builder extends BaseBuilder
+class Builder extends MySqlBuilder
 {
     /**
      * @param  string  $table
