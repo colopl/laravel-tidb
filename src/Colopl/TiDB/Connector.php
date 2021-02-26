@@ -17,18 +17,9 @@
 
 namespace Colopl\TiDB;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Connectors\MySqlConnector;
 
-class TiDBServiceProvider extends ServiceProvider
+class Connector extends MySqlConnector
 {
-    public function register()
-    {
-        $this->app->bind('db.connector.tidb', function() {
-            return new Connector;
-        });
 
-        Connection::resolverFor('tidb', function ($pdo, $database, $prefix, $config) {
-            return new Connection($pdo, $database, $prefix, $config);
-        });
-    }
 }
