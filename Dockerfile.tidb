@@ -10,8 +10,4 @@ RUN apt-get update \
   && curl --proto '=https' --tlsv1.2 -sSf https://tiup-mirrors.pingcap.com/install.sh | sh \
   && .tiup/bin/tiup install playground tiflash prometheus
 
-EXPOSE 2379
-EXPOSE 3000
-EXPOSE 4000
-EXPOSE 9090
-EXPOSE 10080
+EXPOSE 2379 3000 4000 9090 10080

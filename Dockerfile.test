@@ -3,11 +3,8 @@ FROM php:7.4-cli-alpine3.12
 ENV TZ Asia/Tokyo
 ENV PATH="${PATH}:/project/vendor/bin"
 
-RUN apk add --no-cache libxml2 libstdc++ \
-  && apk add --no-cache --virtual=.build-deps tzdata pcre-dev libxml2-dev gcc make autoconf linux-headers \
-  && docker-php-ext-install -j$(nproc) pdo pdo_mysql \
+RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql \
   && docker-php-ext-enable opcache \
-  && apk del .build-deps \
   && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer \
   && mkdir -p /project/
 

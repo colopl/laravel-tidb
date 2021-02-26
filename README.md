@@ -1,7 +1,7 @@
 laravel-tidb
 ================
 
-Laravel database driver for PingCAP TiDB
+Laravel database driver for [TiDB](https://github.com/pingcap/tidb)
 
 ## Requirements
 
