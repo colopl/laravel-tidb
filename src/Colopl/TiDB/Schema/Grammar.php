@@ -36,11 +36,11 @@ class Grammar extends MySqlGrammar
 
     /**
      * OVERRIDDEN
-     * @param  Blueprint  $blueprint
+     * @param  BaseBlueprint  $blueprint
      * @param  Fluent  $column
      * @return string|null
      */
-    protected function modifyAutoRandom(Blueprint $blueprint, Fluent $column)
+    protected function modifyAutoRandom(BaseBlueprint $blueprint, Fluent $column)
     {
         if ($column->autoRandom) {
             return ' primary key auto_random'.(is_int($column->autoRandom) ? "({$column->autoRandom})" : '');
@@ -66,7 +66,7 @@ class Grammar extends MySqlGrammar
     /**
      * @param string $sql
      * @param Connection $connection
-     * @param Blueprint $blueprint
+     * @param BaseBlueprint $blueprint
      * @return string
      */
     protected function compileCreateShards(string $sql, Connection $connection, BaseBlueprint $blueprint)
