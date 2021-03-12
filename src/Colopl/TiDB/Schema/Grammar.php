@@ -71,14 +71,15 @@ class Grammar extends MySqlGrammar
      */
     protected function compileCreateShards(string $sql, Connection $connection, BaseBlueprint $blueprint)
     {
-        if ($blueprint->shardRowIdBits) {
-            $sql.= " SHARD_ROW_ID_BITS={$blueprint->shardRowIdBits}";
-        }
+        if ($blueprint instanceof Blueprint) {
+            if ($blueprint->shardRowIdBits) {
+                $sql.= " SHARD_ROW_ID_BITS={$blueprint->shardRowIdBits}";
+            }
 
-        if ($blueprint->preSplitRegions) {
-            $sql.= " PRE_SPLIT_REGIONS={$blueprint->preSplitRegions}";
+            if ($blueprint->preSplitRegions) {
+                $sql.= " PRE_SPLIT_REGIONS={$blueprint->preSplitRegions}";
+            }
         }
-
         return $sql;
     }
 
