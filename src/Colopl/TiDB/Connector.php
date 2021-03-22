@@ -18,8 +18,26 @@
 namespace Colopl\TiDB;
 
 use Illuminate\Database\Connectors\MySqlConnector;
+use PDO;
 
 class Connector extends MySqlConnector
 {
+    /**
+     * This override allows change in replica read mode by setting options.replica_read
+     * @see https://docs.pingcap.com/tidb/stable/follower-read
+     *
+     * @param array $config
+     * @return PDO
+     */
+    public function connect(array $config)
+    {
+        $pdo = parent::connect($config);
 
+        if (isset($config['replica_read'])) {
+            $mode = preg_replace('/[^a-zA-Z0-9_-]+/', '', $config['replica_read']);
+            $pdo->exec("set @@tidb_replica_read='{$mode}'");
+        }
+
+        return $pdo;
+    }
 }

@@ -18,6 +18,7 @@
 namespace Colopl\TiDB\Tests;
 
 use Colopl\TiDB\Connection;
+use Colopl\TiDB\Connector;
 
 class ConnectionTest extends TestCase
 {
@@ -70,5 +71,29 @@ class ConnectionTest extends TestCase
 
         $data = $conn->selectOne('SELECT * FROM User');
         self::assertNull($data);
+    }
+
+    /**
+     * @group test
+     */
+    public function testReplicaReads()
+    {
+        $mode = 'leader-and-follower';
+        $config = config('database.connections.main');
+        $config['replica_read'] = $mode;
+
+        $pdo = (new Connector)->connect($config);
+        $data = $pdo->query('SELECT @@tidb_replica_read')->fetch(\PDO::FETCH_ASSOC);
+
+        self::assertEquals($data['@@tidb_replica_read'], $mode);
+    }
+
+    public function testReplicaReadsWithWrongName()
+    {
+        $this->expectExceptionMessage("SQLSTATE[42000]: Syntax error or access violation: 1231 Variable 'tidb_replica_read' can't be set to the value of 'random_name'");
+
+        $config = config('database.connections.main');
+        $config['replica_read'] = 'random_name';
+        (new Connector)->connect($config);
     }
 }
