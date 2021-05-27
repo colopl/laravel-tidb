@@ -1,4 +1,4 @@
-<?php /** @noinspection ALL */
+<?php
 
 /**
  * Copyright 2021 Colopl Inc. All Rights Reserved.

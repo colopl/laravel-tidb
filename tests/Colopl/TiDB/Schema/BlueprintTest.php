@@ -72,4 +72,36 @@ class BlueprintTest extends TestCase
         self::assertNotContains('str', $columns);
         self::assertNotContains('num', $columns);
     }
+
+    /**
+     * @group test
+     */
+    public function testCreateTableWithIndex()
+    {
+        $conn = $this->getConnection();
+        $schema = $conn->getSchemaBuilder();
+
+        $schema->create('Test', function(Blueprint $table) {
+            $table->bigInteger('id')->primary();
+            $table->string('str1', 5);
+            $table->string('str2', 5);
+
+            $table->unique(['str1', 'str2']);
+        });
+
+        $indexInfos = $conn->select('SHOW INDEX FROM Test');
+
+        self::assertEquals('Test', $indexInfos[0]->Table);
+        self::assertEquals('PRIMARY', $indexInfos[0]->Key_name);
+        self::assertEquals('id', $indexInfos[0]->Column_name);
+        self::assertEquals('Test', $indexInfos[1]->Table);
+        self::assertEquals('test_str1_str2_unique', $indexInfos[1]->Key_name);
+        self::assertEquals('str1', $indexInfos[1]->Column_name);
+        self::assertEquals('0', $indexInfos[1]->Non_unique);
+        self::assertEquals('Test', $indexInfos[2]->Table);
+        self::assertEquals('test_str1_str2_unique', $indexInfos[2]->Key_name);
+        self::assertEquals('str2', $indexInfos[2]->Column_name);
+        self::assertEquals('0', $indexInfos[2]->Non_unique);
+    }
+
 }

@@ -44,7 +44,7 @@ class Blueprint extends BaseBluePrint
      * @param string $column
      * @param false $autoIncrement
      * @param false $unsigned
-     * @return ColumnDefinition
+     * @return \Illuminate\Database\Schema\ColumnDefinition
      */
     public function bigInteger($column, $autoIncrement = false, $unsigned = false)
     {
@@ -80,5 +80,24 @@ class Blueprint extends BaseBluePrint
     public function preSplitRegions(int $regions)
     {
         $this->preSplitRegions = $regions;
+    }
+
+    /**
+     * @return void
+     */
+    public function useAndNullifyIndexCommands(callable $callback)
+    {
+        foreach ($this->commands as $index => $command) {
+            if (in_array($command->name, ['primary', 'unique', 'index', 'spatialIndex'], true)) {
+                $callback($command);
+                $command->name = 'nothing';
+                unset($this->commands[$index]);
+            }
+        }
+    }
+
+    public function compileNothing()
+    {
+        return [];
     }
 }

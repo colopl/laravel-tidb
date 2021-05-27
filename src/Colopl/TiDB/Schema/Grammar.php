@@ -35,7 +35,6 @@ class Grammar extends MySqlGrammar
     ];
 
     /**
-     * OVERRIDDEN
      * @param  BaseBlueprint  $blueprint
      * @param  Fluent  $column
      * @return string|null
@@ -81,6 +80,60 @@ class Grammar extends MySqlGrammar
             }
         }
         return $sql;
+    }
+
+    /**
+     * OVERRIDDEN
+     * @param BaseBluePrint $blueprint
+     * @param Fluent $command
+     * @param Connection $connection
+     * @return string
+     */
+    protected function compileCreateTable($blueprint, $command, $connection)
+    {
+        return sprintf('%s table %s (%s)',
+            $blueprint->temporary ? 'create temporary' : 'create',
+            $this->wrapTable($blueprint),
+            implode(', ', array_merge($this->getColumns($blueprint), $this->getIndexes($blueprint))),
+        );
+    }
+
+    /**
+     * @param BaseBluePrint $blueprint
+     * @return array
+     */
+    protected function getIndexes(BaseBluePrint $blueprint)
+    {
+        $indexes = [];
+
+        if ($blueprint instanceof Blueprint) {
+            $blueprint->useAndNullifyIndexCommands(function($command) use (&$indexes) {
+                if ($command->name === 'primary') {
+                    $str = 'primary key';
+                }
+                else if ($command->name === 'unique') {
+                    $str = 'unique index';
+                }
+                else if ($command->name === 'spatialIndex') {
+                    $str = 'spatial index';
+                }
+                else {
+                    $str = 'index';
+                }
+
+                if ($command->name !== 'primary') {
+                    $str.= ' '.$this->wrap($command->index);
+                }
+
+                $str.= $command->algorithm ? ' using '.$command->algorithm : '';
+
+                $str.= ' ('.$this->columnize($command->columns).')';
+
+                $indexes[]= $str;
+            });
+        }
+
+        return $indexes;
     }
 
     /**

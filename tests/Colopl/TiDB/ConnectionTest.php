@@ -73,13 +73,11 @@ class ConnectionTest extends TestCase
         self::assertNull($data);
     }
 
-    /**
-     * @group test
-     */
     public function testReplicaReads()
     {
         $mode = 'leader-and-follower';
         $config = config('database.connections.main');
+        $config['database'] = null;
         $config['replica_read'] = $mode;
 
         $pdo = (new Connector)->connect($config);
