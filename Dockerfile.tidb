@@ -8,6 +8,6 @@ RUN apt-get update \
   && ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
   && dpkg-reconfigure --frontend noninteractive tzdata \
   && curl --proto '=https' --tlsv1.2 -sSf https://tiup-mirrors.pingcap.com/install.sh | sh \
-  && .tiup/bin/tiup install playground tiflash prometheus
+  && /root/.tiup/bin/tiup install playground tiflash prometheus
 
 EXPOSE 2379 3000 4000 9090 10080
