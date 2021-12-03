@@ -30,6 +30,7 @@ That's all. You can use database connection as usual.
 ## Unsupported features
 
 1. Nesting transactions and then rolling them back will always rollback to the first transaction since `SAVEPOINT` is not supported by TiDB. In other words, rolling back with `$connection->rollBack()` will always rollback level to `0`.
-1. Adding and dropping multiple columns atomically is not supported. Defining multiple columns in migrations is supported but will be executed one by one and will not be atomic. Ex: `$table->dropColumn('title', 'content')`
+2. Adding and dropping multiple columns atomically is not supported. Ex: `$table->dropColumn('title', 'content')`
+3. Defining multiple columns in migrations is supported but will be executed one by one and will not be atomic.
 
 For unsupported features for TiDB itself, please see [MySQL Compatibility](https://docs.pingcap.com/tidb/stable/mysql-compatibility).

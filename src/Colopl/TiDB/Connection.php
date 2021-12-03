@@ -21,12 +21,13 @@ namespace Colopl\TiDB;
 use Colopl\TiDB\Query\Grammar as QueryGrammar;
 use Colopl\TiDB\Schema\Builder as SchemaBuilder;
 use Colopl\TiDB\Schema\Grammar as SchemaGrammar;
+use Illuminate\Database\Grammar;
 use Illuminate\Database\MySqlConnection;
 
 class Connection extends MySqlConnection
 {
     /**
-     * @return QueryGrammar
+     * @return Grammar
      */
     protected function getDefaultQueryGrammar()
     {
@@ -34,7 +35,7 @@ class Connection extends MySqlConnection
     }
 
     /**
-     * @return SchemaGrammar
+     * @return Grammar
      */
     protected function getDefaultSchemaGrammar()
     {
@@ -55,6 +56,7 @@ class Connection extends MySqlConnection
 
     /**
      * @param int|null $toLevel
+     * @return void
      */
     public function rollBack($toLevel = null)
     {
