@@ -34,3 +34,15 @@ That's all. You can use database connection as usual.
 3. Defining multiple columns in migrations is supported but will be executed one by one and will not be atomic.
 
 For unsupported features for TiDB itself, please see [MySQL Compatibility](https://docs.pingcap.com/tidb/stable/mysql-compatibility).
+
+
+### Testing
+You can run tests on docker by the following command.
+
+```sh
+make test
+```
+
+
+## License
+Apache 2.0 - See [LICENSE](./LICENSE) for more information.
