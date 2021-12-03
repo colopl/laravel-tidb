@@ -1,9 +1,10 @@
-FROM php:7.4-cli-alpine3.12
+FROM php:7.4-cli-alpine
 
 ENV TZ Asia/Tokyo
 ENV PATH="${PATH}:/project/vendor/bin"
 
-RUN docker-php-ext-install -j$(nproc) pdo pdo_mysql \
+RUN apk add --no-cache bash coreutils \
+  && docker-php-ext-install -j$(nproc) pdo pdo_mysql \
   && docker-php-ext-enable opcache \
   && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer \
   && mkdir -p /project/

@@ -8,3 +8,4 @@ Dockerfile.tidb export-ignore
 docker-compose.yml export-ignore
 Makefile export-ignore
 phpunit.xml export-ignore
+wait-for-it.sh export-ignore

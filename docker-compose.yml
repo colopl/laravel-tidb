@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.test
+    entrypoint: ./wait-for-it.sh tidb:4000 -t 600 --
     command: /bin/sh -c "composer install && vendor/bin/phpunit"
     volumes:
       - .:/project:delegated
