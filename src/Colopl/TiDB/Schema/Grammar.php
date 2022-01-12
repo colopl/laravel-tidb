@@ -55,12 +55,9 @@ class Grammar extends MySqlGrammar
      */
     public function compileCreate(BaseBluePrint $blueprint, Fluent $command, Connection $connection)
     {
-        $arr = parent::compileCreate($blueprint, $command, $connection);
-        $sql = $arr[0];
-        $sql = $this->compileCreateShards($sql, $connection, $blueprint);
-        $arr[0] = $sql;
-
-        return $arr;
+        $res = parent::compileCreate($blueprint, $command, $connection);
+        $res[0] = $this->compileCreateShards($res[0], $connection, $blueprint);
+        return $res;
     }
 
     /**
