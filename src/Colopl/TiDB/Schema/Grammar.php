@@ -51,15 +51,13 @@ class Grammar extends MySqlGrammar
      * @param  BaseBlueprint  $blueprint
      * @param  Fluent  $command
      * @param  Connection  $connection
-     * @return string
+     * @return array
      */
     public function compileCreate(BaseBluePrint $blueprint, Fluent $command, Connection $connection)
     {
-        $sql = parent::compileCreate($blueprint, $command, $connection);
-
-        $sql = $this->compileCreateShards($sql, $connection, $blueprint);
-
-        return $sql;
+        $res = parent::compileCreate($blueprint, $command, $connection);
+        $res[0] = $this->compileCreateShards($res[0], $connection, $blueprint);
+        return $res;
     }
 
     /**
@@ -91,11 +89,11 @@ class Grammar extends MySqlGrammar
      */
     protected function compileCreateTable($blueprint, $command, $connection)
     {
-        return sprintf('%s table %s (%s)',
+        return trim(sprintf('%s table %s (%s)',
             $blueprint->temporary ? 'create temporary' : 'create',
             $this->wrapTable($blueprint),
             implode(', ', array_merge($this->getColumns($blueprint), $this->getIndexes($blueprint))),
-        );
+        ));
     }
 
     /**
