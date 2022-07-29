@@ -1,4 +1,4 @@
-FROM php:8.0-cli-alpine
+FROM php:8-cli-alpine
 
 ENV TZ Asia/Tokyo
 ENV PATH="${PATH}:/project/vendor/bin"
