@@ -14,17 +14,17 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.0/phpunit.xsd"
+         backupGlobals="false"
          colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnError="true"
-         stopOnFailure="true">
-    <testsuite name="all">
-        <directory suffix="Test.php">./tests</directory>
-    </testsuite>
+         stopOnFailure="true"
+         cacheDirectory=".phpunit.cache"
+         backupStaticProperties="false"
+>
+  <testsuite name="all">
+    <directory suffix="Test.php">./tests</directory>
+  </testsuite>
 </phpunit>

@@ -45,7 +45,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
         }
     }
 
-    protected function getConnection($connection = null)
+    protected function getConnection($connection = null, $table = null)
     {
         if (!static::$databasePrepared) {
             $config = config('database.connections.main');
