@@ -18,12 +18,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Colopl\\TiDB\\": "src/Colopl/TiDB"
+      "Colopl\\TiDB\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Colopl\\TiDB\\Tests\\": "tests/Colopl/TiDB"
+      "Colopl\\TiDB\\Tests\\": "tests/"
     }
   },
   "extra": {
