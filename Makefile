@@ -17,7 +17,7 @@ update:
 	$(BASE_COMMAND) run test composer update
 	$(BASE_COMMAND) down --remove-orphans
 
-bash:
+sh:
 	$(BASE_COMMAND) run test /bin/sh
 
 tidb:
