@@ -31,7 +31,9 @@ class Connection extends MySqlConnection
      */
     protected function getDefaultQueryGrammar()
     {
-        return $this->withTablePrefix(new QueryGrammar);
+        ($grammar = new QueryGrammar)->setConnection($this);
+
+        return $this->withTablePrefix($grammar);
     }
 
     /**
@@ -39,7 +41,9 @@ class Connection extends MySqlConnection
      */
     protected function getDefaultSchemaGrammar()
     {
-        return $this->withTablePrefix(new SchemaGrammar);
+        ($grammar = new SchemaGrammar)->setConnection($this);
+
+        return $this->withTablePrefix($grammar);
     }
 
     /**
