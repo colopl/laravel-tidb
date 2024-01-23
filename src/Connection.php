@@ -23,6 +23,7 @@ use Colopl\TiDB\Schema\Builder as SchemaBuilder;
 use Colopl\TiDB\Schema\Grammar as SchemaGrammar;
 use Illuminate\Database\Grammar;
 use Illuminate\Database\MySqlConnection;
+use function method_exists;
 
 class Connection extends MySqlConnection
 {
@@ -31,7 +32,12 @@ class Connection extends MySqlConnection
      */
     protected function getDefaultQueryGrammar()
     {
-        return $this->withTablePrefix(new QueryGrammar);
+        $grammar = new QueryGrammar;
+        if (method_exists($grammar, 'setConnection')) {
+            $grammar->setConnection($this);
+        }
+
+        return $this->withTablePrefix($grammar);
     }
 
     /**
@@ -39,7 +45,12 @@ class Connection extends MySqlConnection
      */
     protected function getDefaultSchemaGrammar()
     {
-        return $this->withTablePrefix(new SchemaGrammar);
+        $grammar = new SchemaGrammar;
+        if (method_exists($grammar, 'setConnection')) {
+            $grammar->setConnection($this);
+        }
+
+        return $this->withTablePrefix($grammar);
     }
 
     /**
