@@ -73,9 +73,6 @@ class BlueprintTest extends TestCase
         self::assertNotContains('num', $columns);
     }
 
-    /**
-     * @group test
-     */
     public function testCreateTableWithIndex()
     {
         $conn = $this->getConnection();
