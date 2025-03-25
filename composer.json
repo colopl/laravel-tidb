@@ -1,5 +1,5 @@
 {
-  "name": "augusl/laravel-tidb",
+  "name": "colopl/laravel-tidb",
   "description": "Laravel database driver for PingCAP TiDB",
   "type": "library",
   "license": "Apache-2.0",
