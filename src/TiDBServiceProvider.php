@@ -17,6 +17,8 @@
 
 namespace Colopl\TiDB;
 
+use Colopl\TiDB\Schema\Blueprint as TiDbBlueprint;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\ServiceProvider;
 
 class TiDBServiceProvider extends ServiceProvider
@@ -25,6 +27,10 @@ class TiDBServiceProvider extends ServiceProvider
     {
         $this->app->bind('db.connector.tidb', function() {
             return new Connector;
+        });
+
+        $this->app->bind(Blueprint::class, function($app, $args) {
+            return new TiDbBlueprint(...$args);
         });
 
         Connection::resolverFor('tidb', function ($pdo, $database, $prefix, $config) {
