@@ -10,10 +10,10 @@
     "php": ">=8",
     "ext-json": "*",
     "ext-pdo": "*",
-    "laravel/framework": "~10|~11"
+    "laravel/framework": "~11"
   },
   "require-dev": {
-    "orchestra/testbench": "~8|~9",
+    "orchestra/testbench": "~9",
     "phpunit/phpunit": "~11"
   },
   "autoload": {
@@ -34,4 +34,3 @@
     }
   }
 }
-

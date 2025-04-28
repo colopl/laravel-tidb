@@ -24,15 +24,10 @@ use Illuminate\Support\Fluent;
 
 class Grammar extends MySqlGrammar
 {
-    /**
-     * @var array
-     */
-    protected $modifiers = [
-        'Unsigned', 'Charset', 'Collate', 'VirtualAs', 'StoredAs', 'Nullable',
-        'Srid', 'Default', 'Increment', 'Comment', 'After', 'First',
-        // TiDB Specific Modifiers
-        'AutoRandom',
-    ];
+    public function __construct()
+    {
+        $this->modifiers[] = 'AutoRandom';
+    }
 
     /**
      * @param  BaseBlueprint  $blueprint

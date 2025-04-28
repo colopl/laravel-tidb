@@ -19,7 +19,6 @@
 namespace Colopl\TiDB;
 
 use Colopl\TiDB\Query\Grammar as QueryGrammar;
-use Colopl\TiDB\Schema\Builder as SchemaBuilder;
 use Colopl\TiDB\Schema\Grammar as SchemaGrammar;
 use Illuminate\Database\Grammar;
 use Illuminate\Database\MySqlConnection;
@@ -51,18 +50,6 @@ class Connection extends MySqlConnection
         }
 
         return $this->withTablePrefix($grammar);
-    }
-
-    /**
-     * @return SchemaBuilder
-     */
-    public function getSchemaBuilder()
-    {
-        if ($this->schemaGrammar === null) {
-            $this->useDefaultSchemaGrammar();
-        }
-
-        return new SchemaBuilder($this);
     }
 
     /**
