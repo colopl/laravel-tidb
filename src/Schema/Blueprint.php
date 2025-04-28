@@ -59,11 +59,13 @@ class Blueprint extends BaseBluePrint
      */
     public function addColumn($type, $name, array $parameters = [])
     {
-        $this->columns[] = $column = new ColumnDefinition(
+        $def = new ColumnDefinition(
             array_merge(compact('type', 'name'), $parameters)
         );
 
-        return $column;
+        $this->addColumnDefinition($def);
+
+        return $def;
     }
 
     /**

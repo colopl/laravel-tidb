@@ -153,32 +153,4 @@ class Grammar extends MySqlGrammar
 
         return $ddl;
     }
-
-    /**
-     * OVERRIDDEN
-     * TiDB does not support multiple schema changes
-     *
-     * @param BaseBlueprint $blueprint
-     * @param Fluent $command
-     * @return array|string
-     */
-    public function compileAdd(BaseBlueprint $blueprint, Fluent $command)
-    {
-        $columns = $this->prefixArray('add', $this->getColumns($blueprint));
-        return array_map(fn($column) => 'alter table '.$this->wrapTable($blueprint).' '.$column, $columns);
-    }
-
-    /**
-     * OVERRIDDEN
-     * TiDB does not support multiple schema changes
-     *
-     * @param BaseBlueprint $blueprint
-     * @param Fluent $command
-     * @return string|array
-     */
-    public function compileDropColumn(BaseBlueprint $blueprint, Fluent $command)
-    {
-        $columns = $this->prefixArray('drop', $this->wrapArray($command->columns));
-        return array_map(fn($column) => 'alter table '.$this->wrapTable($blueprint).' '.$column, $columns);
-    }
 }
