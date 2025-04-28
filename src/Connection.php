@@ -18,7 +18,6 @@
 
 namespace Colopl\TiDB;
 
-use Colopl\TiDB\Query\Grammar as QueryGrammar;
 use Colopl\TiDB\Schema\Grammar as SchemaGrammar;
 use Illuminate\Database\Grammar;
 use Illuminate\Database\MySqlConnection;
@@ -26,19 +25,6 @@ use function method_exists;
 
 class Connection extends MySqlConnection
 {
-    /**
-     * @return Grammar
-     */
-    protected function getDefaultQueryGrammar()
-    {
-        $grammar = new QueryGrammar;
-        if (method_exists($grammar, 'setConnection')) {
-            $grammar->setConnection($this);
-        }
-
-        return $this->withTablePrefix($grammar);
-    }
-
     /**
      * @return Grammar
      */
@@ -50,15 +36,5 @@ class Connection extends MySqlConnection
         }
 
         return $this->withTablePrefix($grammar);
-    }
-
-    /**
-     * @param int|null $toLevel
-     * @return void
-     */
-    public function rollBack($toLevel = null)
-    {
-        // TiDB does not support savepoint so always rollback the base transaction.
-        parent::rollBack(0);
     }
 }

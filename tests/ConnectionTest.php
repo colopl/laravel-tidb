@@ -58,19 +58,21 @@ class ConnectionTest extends TestCase
         self::assertEquals($data->name, $name);
     }
 
-    public function testNestedTransactionWithRollback()
+    public function testNestedTransactionWithRollbackSavePoint()
     {
         $name = 'tester1';
-
         $conn = $this->getConnection();
         $conn->beginTransaction();
         $conn->query()->from('User')->insert(compact('name'));
         $conn->beginTransaction();
+        $name = 'tester2';
+        $conn->query()->from('User')->insert(compact('name'));
         $conn->rollBack();
         $conn->commit();
+        $conn->commit();
 
-        $data = $conn->selectOne('SELECT * FROM User');
-        self::assertNull($data);
+        $qName = $conn->table('User')->soleValue('name');
+        $this->assertSame('tester1', $qName);
     }
 
     public function testReplicaReads()
