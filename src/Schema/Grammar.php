@@ -24,8 +24,10 @@ use Illuminate\Support\Fluent;
 
 class Grammar extends MySqlGrammar
 {
-    public function __construct()
+    public function __construct(Connection $connection)
     {
+        parent::__construct($connection);
+
         $this->modifiers[] = 'AutoRandom';
     }
 
@@ -39,29 +41,25 @@ class Grammar extends MySqlGrammar
         if ($column->autoRandom) {
             return ' primary key auto_random'.(is_int($column->autoRandom) ? "({$column->autoRandom})" : '');
         }
+        return null;
     }
 
     /**
-     * OVERRIDDEN
-     * @param  BaseBlueprint  $blueprint
-     * @param  Fluent  $command
-     * @param  Connection  $connection
-     * @return array
+     * @inheritDoc
      */
-    public function compileCreate(BaseBluePrint $blueprint, Fluent $command, Connection $connection)
+    public function compileCreate(BaseBluePrint $blueprint, Fluent $command)
     {
-        $res = parent::compileCreate($blueprint, $command, $connection);
-        $res[0] = $this->compileCreateShards($res[0], $connection, $blueprint);
+        $res = parent::compileCreate($blueprint, $command);
+        $res[0] = $this->compileCreateShards($res[0], $blueprint);
         return $res;
     }
 
     /**
      * @param string $sql
-     * @param Connection $connection
      * @param BaseBlueprint $blueprint
      * @return string
      */
-    protected function compileCreateShards(string $sql, Connection $connection, BaseBlueprint $blueprint)
+    protected function compileCreateShards(string $sql, BaseBlueprint $blueprint)
     {
         if ($blueprint instanceof Blueprint) {
             if ($blueprint->shardRowIdBits) {
@@ -76,13 +74,9 @@ class Grammar extends MySqlGrammar
     }
 
     /**
-     * OVERRIDDEN
-     * @param BaseBluePrint $blueprint
-     * @param Fluent $command
-     * @param Connection $connection
-     * @return string
+     * @inheritDoc
      */
-    protected function compileCreateTable($blueprint, $command, $connection)
+    protected function compileCreateTable($blueprint, $command)
     {
         return trim(sprintf('%s table %s (%s)',
             $blueprint->temporary ? 'create temporary' : 'create',
