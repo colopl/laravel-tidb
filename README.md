@@ -7,7 +7,7 @@ Laravel database driver for [TiDB](https://github.com/pingcap/tidb)
 
 - PHP >= 8.0
 - Laravel 11
-- TiDB >= 4.0
+- TiDB >= 7.0
 
 ## Installation
 
