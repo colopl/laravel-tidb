@@ -7,13 +7,13 @@
     {"name": "Takayasu Oyama", "email": "t-oyama@colopl.co.jp"}
   ],
   "require": {
-    "php": ">=8",
+    "php": ">=8.2",
     "ext-json": "*",
     "ext-pdo": "*",
-    "laravel/framework": "~11"
+    "laravel/framework": "~12"
   },
   "require-dev": {
-    "orchestra/testbench": "~9",
+    "orchestra/testbench": "~10",
     "phpunit/phpunit": "~11"
   },
   "autoload": {

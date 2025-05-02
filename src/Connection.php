@@ -19,22 +19,15 @@
 namespace Colopl\TiDB;
 
 use Colopl\TiDB\Schema\Grammar as SchemaGrammar;
-use Illuminate\Database\Grammar;
 use Illuminate\Database\MySqlConnection;
-use function method_exists;
 
 class Connection extends MySqlConnection
 {
     /**
-     * @return Grammar
+     * @inheritDoc
      */
     protected function getDefaultSchemaGrammar()
     {
-        $grammar = new SchemaGrammar;
-        if (method_exists($grammar, 'setConnection')) {
-            $grammar->setConnection($this);
-        }
-
-        return $this->withTablePrefix($grammar);
+        return new SchemaGrammar($this);
     }
 }
